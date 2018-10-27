@@ -1,3 +1,13 @@
+#                                 __                 __
+#    __  ______  ____ ___  ____ _/ /____  ____  ____/ /
+#   / / / / __ \/ __ `__ \/ __ `/ __/ _ \/ __ \/ __  /
+#  / /_/ / /_/ / / / / / / /_/ / /_/  __/ /_/ / /_/ /
+#  \__, /\____/_/ /_/ /_/\__,_/\__/\___/\____/\__,_/
+# /____                     matthewdavis.io, holla!
+#
+include .make/Makefile.inc
+
+NS		?= default
 VERSION ?= $(shell git rev-parse HEAD)
 APP     ?= fakerai-service-api
 IMAGE   ?= gcr.io/matthewdavis-devops/$(APP):$(VERSION)
@@ -10,11 +20,3 @@ build: 	; docker build -t $(IMAGE) .
 run: 	; docker run -p 8080:8080 $(IMAGE)
 push:	; docker push $(IMAGE)
 test:	; curl -XPOST -vv -d '["{{company.companyName}} ({{internet.email}})"]' 'http://localhost:8080/pattern?n=10&unique=true' -H 'Content-type: application/json'
-
-k8/install:
-
-	kubectl apply -f manifests/
-
-k8/delete:
-
-	kubectl delete -f manifests/
