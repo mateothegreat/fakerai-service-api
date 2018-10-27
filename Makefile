@@ -16,7 +16,8 @@ IMAGE   ?= gcr.io/matthewdavis-devops/$(APP):$(VERSION)
 
 all: build push
 
-build: 	; docker build -t $(IMAGE) .
-run: 	; docker run -p 8080:8080 $(IMAGE)
-push:	; docker push $(IMAGE)
-test:	; curl -XPOST -vv -d '["{{company.companyName}} ({{internet.email}})"]' 'http://localhost:8080/pattern?n=10&unique=true' -H 'Content-type: application/json'
+build: 		; docker build -t $(IMAGE) .
+run: 		; docker run -p 8080:8080 $(IMAGE)
+push:		; docker push $(IMAGE)
+test-local:	; curl -XPOST -vv -d '["{{company.companyName}} ({{internet.email}})"]' -H 'Content-type: application/json' 'http://localhost:8080/pattern?n=10&unique=true'
+test-prod:	; curl -XPOST -vv -d '["{{company.companyName}} ({{internet.email}})","{{image.avatar}}"]' -H 'Content-type: application/json' 'https://api.faker.ai/pattern?n=10&unique=true'
