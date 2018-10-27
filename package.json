@@ -1,11 +1,11 @@
 {
-  "name": "@matthewdavis.io/restto-service-faker",
+  "name": "@matthewdavis.io/fakerai-service-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "dev:watch": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
