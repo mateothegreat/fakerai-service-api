@@ -127,6 +127,51 @@ app.post('/pattern', (req, res) => {
 
 });
 
+app.get('/card/:name', (req, res) => {
+
+    const max = (req.query.n && req.query.n > 0) ? (req.query.n > MAX_ITEMS) ? MAX_ITEMS : req.query.n : 1;
+
+    let fn;
+
+    if (req.params.name === 'user') {
+
+        fn = faker.helpers.userCard;
+
+    }
+
+    if (fn) {
+
+        let build;
+
+        if (max > 1) {
+
+            build = [];
+
+            for (let i = 0; i < max; i++) {
+
+                faker.seed(Math.floor(Math.random() * 999999999));
+
+                build.push(fn());
+
+            }
+
+        } else {
+
+            build = fn();
+
+        }
+
+        res.send({
+
+                     status: true,
+                     data: build
+
+                 });
+
+    }
+
+});
+
 app.get('/:category/:property?', (req, res) => {
 
     handle(req.params.category + '.' + req.params.property, req, res);
