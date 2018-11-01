@@ -32,37 +32,37 @@ app.set('json spaces', 4);
 //
 // https://stackoverflow.com/questions/15819337/catch-express-bodyparser-error
 //
-app.use((req, res, next) => {
+// app.use((req, res, next) => {
+//
+//     bodyParser.json({
+//
+//                         verify: addRawBody,
+//
+//                     })(req, res, (err) => {
+//
+//         if (err) {
+//
+//             console.log(err);
+//
+//             res.sendStatus(400);
+//
+//             return;
+//
+//         }
+//
+//         next();
+//
+//     });
+//
+// });
+//
+// function addRawBody(req, res, buf, encoding) {
+//
+//     req.rawBody = buf.toString();
+//
+// }
 
-    bodyParser.json({
-
-                        verify: addRawBody,
-
-                    })(req, res, (err) => {
-
-        if (err) {
-
-            console.log(err);
-
-            res.sendStatus(400);
-
-            return;
-
-        }
-
-        next();
-
-    });
-
-});
-
-function addRawBody(req, res, buf, encoding) {
-
-    req.rawBody = buf.toString();
-
-}
-
-
+app.use(bodyParser.json());
 app.use((req, res, next) => {
 
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -177,28 +177,12 @@ function handle(pattern, req, res) {
 
         const max = (req.query.n && req.query.n > 0) ? (req.query.n > MAX_ITEMS) ? MAX_ITEMS : req.query.n : 1;
         const unique = !!req.query.unique;
-        // const pattern = (req.params.category === 'pattern') ? req.params.category : req.params.category + '.' +
-        // req.params.property;
-
-        let build = [];
-
-        for (let i = 0; i < max; i++) {
-
-            build.push(generate(pattern));
-
-        }
-
-        if (unique) {
-
-            build = Array.from(new Set(build));
-
-        }
 
         res.send({
 
                      status: true,
                      property: req.params.category + '.' + req.params.property,
-                     data: build
+                     data: generate('{{' + pattern + '}}', max, unique)
 
                  });
 
